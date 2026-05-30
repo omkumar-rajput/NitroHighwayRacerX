@@ -1,60 +1,68 @@
 body{
-    margin:0;
-    overflow:hidden;
-    font-family:Arial, sans-serif;
+
+margin:0;
+
+overflow:hidden;
+
+font-family:Arial,sans-serif;
 }
 
 #hud{
 
-    position:absolute;
+position:absolute;
 
-    top:20px;
-    left:20px;
+top:20px;
 
-    color:white;
+left:20px;
 
-    font-size:24px;
+color:white;
 
-    z-index:100;
+font-size:24px;
 
-    text-shadow:2px 2px 4px black;
+z-index:100;
+
+text-shadow:
+2px 2px 5px black;
 }
 
 #hud div{
-    margin-bottom:10px;
+
+margin-bottom:10px;
 }
 
 #gameOver{
 
-    display:none;
+display:none;
 
-    position:absolute;
+position:absolute;
 
-    top:50%;
-    left:50%;
+top:50%;
 
-    transform:translate(-50%,-50%);
+left:50%;
 
-    background:rgba(0,0,0,0.9);
+transform:
+translate(-50%,-50%);
 
-    color:white;
+background:
+rgba(0,0,0,.9);
 
-    padding:40px;
+padding:40px;
 
-    text-align:center;
+border-radius:20px;
 
-    border-radius:15px;
+color:white;
 
-    z-index:200;
+text-align:center;
+
+z-index:200;
 }
 
 #gameOver button{
 
-    padding:15px 30px;
+padding:
+15px 30px;
 
-    font-size:20px;
+font-size:20px;
 
-    cursor:pointer;
-
-    margin-top:20px;
+cursor:pointer;
 }
