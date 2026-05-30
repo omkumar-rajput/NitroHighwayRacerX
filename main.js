@@ -18,7 +18,7 @@ window.innerWidth / window.innerHeight,
 5000
 );
 
-camera.position.set(0, 8, 25);
+camera.position.set(0, 3, 12);
 
 // =========================
 // RENDERER
@@ -399,14 +399,11 @@ camera.position.x = carGroup.position.x;
 camera.lookAt(
 carGroup.position.x,
 1,
-carGroup.position.z - 80
+carGroup.position.z - 40
 );
 
 // WORLD MOVEMENT
 
-road.position.z += speed;
-
-ground.position.z += speed;
 
 // LANE MARKERS
 
@@ -424,11 +421,6 @@ marker.position.z = -3900;
 
 // LOOP ROAD
 
-if(road.position.z > 2000){
-
-road.position.z = 0;
-
-}
 
 renderer.render(
 scene,
