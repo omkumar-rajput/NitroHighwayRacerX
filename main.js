@@ -18,7 +18,7 @@ window.innerWidth / window.innerHeight,
 5000
 );
 
-camera.position.set(0, 3, 12);
+camera.position.set(0, 5, 15);
 
 // =========================
 // RENDERER
@@ -242,7 +242,7 @@ carGroup.add(wheel);
 }
 
 carGroup.position.y = 0.1;
-carGroup.position.z = 50;
+carGroup.position.z = 0;
 
 scene.add(carGroup);
 
@@ -396,10 +396,14 @@ carGroup.position.x += 0.3;
 
 camera.position.x = carGroup.position.x;
 
+camera.position.y = 5;
+
+camera.position.z = carGroup.position.z + 15;
+
 camera.lookAt(
-carGroup.position.x,
-1,
-carGroup.position.z - 40
+    carGroup.position.x,
+    1,
+    carGroup.position.z - 40
 );
 
 // WORLD MOVEMENT
