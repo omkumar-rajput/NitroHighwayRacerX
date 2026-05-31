@@ -330,18 +330,15 @@ let score = 0;
 
 let gameOver = false;
 
-const maxSpeed = 1.2;
+const maxSpeed = 0.6;
 
-const cruiseSpeed = 0.7;
+const cruiseSpeed = 0.35;
 
-const autoAcceleration =
-0.0025;
+const autoAcceleration = 0.0015;
 
-const turboAcceleration =
-0.015;
+const turboAcceleration = 0.008;
 
-const brakingForce =
-0.04;
+const brakingForce = 0.03;
 
 let grassTimer = 0;
 
@@ -638,9 +635,9 @@ Math.random()*3000
 
 traffic.userData.speed =
 
-0.3 +
+0.1 +
 
-Math.random()*0.7;
+Math.random()*0.3;
 
 scene.add(
 traffic
