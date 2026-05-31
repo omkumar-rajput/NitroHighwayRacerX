@@ -7,6 +7,8 @@ overflow:hidden;
 font-family:Arial,sans-serif;
 }
 
+/* HUD */
+
 #hud{
 
 position:absolute;
@@ -30,11 +32,135 @@ text-shadow:
 margin-bottom:10px;
 }
 
+/* SPEEDOMETER */
+
+#speedometer{
+
+position:absolute;
+
+bottom:30px;
+
+right:30px;
+
+width:220px;
+
+height:220px;
+
+z-index:100;
+}
+
+#dial{
+
+position:relative;
+
+width:220px;
+
+height:220px;
+
+border-radius:50%;
+
+background:#111;
+
+border:8px solid white;
+}
+
+#needle{
+
+position:absolute;
+
+width:6px;
+
+height:90px;
+
+background:red;
+
+left:50%;
+
+bottom:50%;
+
+transform-origin:
+bottom center;
+
+transform:
+translateX(-50%)
+rotate(-120deg);
+}
+
+#center{
+
+position:absolute;
+
+width:20px;
+
+height:20px;
+
+background:white;
+
+border-radius:50%;
+
+left:50%;
+
+top:50%;
+
+transform:
+translate(-50%,-50%);
+}
+
+#speedValue{
+
+position:absolute;
+
+width:100%;
+
+text-align:center;
+
+bottom:20px;
+
+font-size:28px;
+
+font-weight:bold;
+
+color:white;
+}
+
+/* GAME OVER */
+
 #gameOver{
 
 display:none;
 
 position:absolute;
+
+top:50%;
+
+left:50%;
+
+transform:
+translate(-50%,-50%);
+
+background:
+rgba(0,0,0,.95);
+
+padding:40px;
+
+border-radius:20px;
+
+color:white;
+
+text-align:center;
+
+z-index:200;
+}
+
+#gameOver button{
+
+padding:
+15px 30px;
+
+font-size:20px;
+
+cursor:pointer;
+}position:absolute;
 
 top:50%;
 
