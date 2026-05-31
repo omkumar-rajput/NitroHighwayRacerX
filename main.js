@@ -76,6 +76,9 @@ document.getElementById("needle");
 const gameOverUI =
 document.getElementById("gameOver");
 
+const warningUI =
+document.getElementById("warning");
+
 // ======================
 // HIGH SCORE
 // ======================
@@ -181,7 +184,7 @@ new THREE.Mesh(
 
 new THREE.BoxGeometry(
 
-30,
+40,
 0.1,
 5000
 
@@ -327,18 +330,20 @@ let score = 0;
 
 let gameOver = false;
 
-const maxSpeed = 4;
+const maxSpeed = 1.2;
 
-const cruiseSpeed = 2.2;
+const cruiseSpeed = 0.7;
 
 const autoAcceleration =
-0.004;
+0.0025;
 
 const turboAcceleration =
-0.03;
+0.015;
 
 const brakingForce =
-0.08;
+0.04;
+
+let grassTimer = 0;
 
 // ======================
 // CONTROLS
@@ -458,10 +463,25 @@ color:0x666666
 
 );
 
+const side =
+
+Math.random() > 0.5
+
+? 1
+
+: -1;
+
 mountain.position.set(
 
--600 +
-Math.random()*1200,
+side *
+
+(
+
+500 +
+
+Math.random()*400
+
+),
 
 40,
 
@@ -540,12 +560,12 @@ trees.push(group);
 for(let i=0;i<250;i++){
 
 createTree(
--45,
+-60,
 -i*25
 );
 
 createTree(
-45,
+60,
 -i*25
 );
 
@@ -593,11 +613,11 @@ Math.random()*colors.length
 
 const lanes = [
 
--10,
--5,
+-15,
+-7.5,
 0,
-5,
-10
+7.5,
+15
 
 ];
 
@@ -615,6 +635,12 @@ Math.random()*5
 Math.random()*3000
 
 );
+
+traffic.userData.speed =
+
+0.3 +
+
+Math.random()*0.7;
 
 scene.add(
 traffic
@@ -869,7 +895,30 @@ carGroup.position.x
 
 ){
 
-speed *= 0.98;
+grassTimer +=
+
+1/60;
+
+speed *= 0.97;
+
+warningUI.style.display =
+"block";
+
+if(
+grassTimer >= 2
+){
+
+gameOver = true;
+
+}
+
+}
+else{
+
+grassTimer = 0;
+
+warningUI.style.display =
+"none";
 
 }
 
@@ -1070,7 +1119,15 @@ let traffic of trafficCars
 
 traffic.position.z +=
 
-speed * 22;
+(speed * 25)
+
+-
+
+(
+
+traffic.userData.speed * 10
+
+);
 
 if(
 
@@ -1086,11 +1143,11 @@ Math.random()*4000;
 
 const lanes = [
 
--10,
--5,
+-15,
+-7.5,
 0,
-5,
-10
+7.5,
+15
 
 ];
 
