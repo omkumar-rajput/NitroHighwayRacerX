@@ -330,9 +330,9 @@ let score = 0;
 
 let gameOver = false;
 
-const maxSpeed = 0.6;
+const maxSpeed = 0.5;
 
-const cruiseSpeed = 0.35;
+const cruiseSpeed = 0.3;
 
 const autoAcceleration = 0.0015;
 
@@ -739,6 +739,19 @@ speed < cruiseSpeed
 
 speed +=
 autoAcceleration;
+
+}
+
+if(
+speed > cruiseSpeed &&
+!(
+keys["ArrowUp"] ||
+keys["w"]
+)
+){
+
+speed -=
+0.002;
 
 }
 
