@@ -34,6 +34,13 @@ camera.position.set(
 15
 );
 
+const listener =
+new THREE.AudioListener();
+
+camera.add(
+listener
+);
+
 // ======================
 // RENDERER
 // ======================
@@ -53,6 +60,9 @@ window.innerHeight
 document.body.appendChild(
 renderer.domElement
 );
+
+const audioLoader =
+new THREE.AudioLoader();
 
 // ======================
 // HUD
@@ -81,6 +91,114 @@ document.getElementById("gameOver");
 
 const warningUI =
 document.getElementById("warning");
+
+// ======================
+// AUDIO
+// ======================
+
+const idleSound =
+new THREE.Audio(
+listener
+);
+
+const runSound =
+new THREE.Audio(
+listener
+);
+
+const hornSound =
+new THREE.Audio(
+listener
+);
+
+const nitroSound =
+new THREE.Audio(
+listener
+);
+
+audioLoader.load(
+
+'assets/sounds/engine_idle.mp3',
+
+buffer=>{
+
+idleSound.setBuffer(
+buffer
+);
+
+idleSound.setLoop(
+true
+);
+
+idleSound.setVolume(
+0.25
+);
+
+}
+
+);
+
+audioLoader.load(
+
+'assets/sounds/engine_run.mp3',
+
+buffer=>{
+
+runSound.setBuffer(
+buffer
+);
+
+runSound.setLoop(
+true
+);
+
+runSound.setVolume(
+0.35
+);
+
+}
+
+);
+
+audioLoader.load(
+
+'assets/sounds/horn.mp3',
+
+buffer=>{
+
+hornSound.setBuffer(
+buffer
+);
+
+hornSound.setVolume(
+0.6
+);
+
+}
+
+);
+
+audioLoader.load(
+
+'assets/sounds/nitro.mp3',
+
+buffer=>{
+
+nitroSound.setBuffer(
+buffer
+);
+
+nitroSound.setLoop(
+true
+);
+
+nitroSound.setVolume(
+0.5
+);
+
+}
+
+);
 
 // ======================
 // HIGH SCORE
@@ -338,6 +456,10 @@ let score = 0;
 let gameOver = false;
 
 let paused = false;
+
+let nitro = false;
+
+let audioStarted = false;
 
 const maxSpeed = 0.5;
 
@@ -1026,6 +1148,34 @@ const speedKMH =
 Math.floor(
 speed * 100
 );
+
+if(
+idleSound.isPlaying
+){
+
+idleSound.setPlaybackRate(
+
+0.8 +
+
+speed * 0.4
+
+);
+
+}
+
+if(
+runSound.isPlaying
+){
+
+runSound.setPlaybackRate(
+
+0.8 +
+
+speed
+
+);
+
+}
 
 speedUI.innerText =
 
