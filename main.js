@@ -5,13 +5,10 @@ import * as THREE from
 // SCENE
 // ======================
 
-const scene =
-new THREE.Scene();
+const scene = new THREE.Scene();
 
 scene.background =
-new THREE.Color(
-0x87ceeb
-);
+new THREE.Color(0x87ceeb);
 
 // ======================
 // CAMERA
@@ -27,7 +24,7 @@ window.innerHeight,
 
 0.1,
 
-5000
+8000
 
 );
 
@@ -49,11 +46,8 @@ antialias:true
 });
 
 renderer.setSize(
-
 window.innerWidth,
-
 window.innerHeight
-
 );
 
 document.body.appendChild(
@@ -65,24 +59,39 @@ renderer.domElement
 // ======================
 
 const speedUI =
-document.getElementById(
-"speed"
-);
+document.getElementById("speed");
 
 const distanceUI =
-document.getElementById(
-"distance"
-);
+document.getElementById("distance");
 
 const scoreUI =
-document.getElementById(
-"score"
-);
+document.getElementById("score");
+
+const bestScoreUI =
+document.getElementById("bestScore");
+
+const needle =
+document.getElementById("needle");
 
 const gameOverUI =
-document.getElementById(
-"gameOver"
-);
+document.getElementById("gameOver");
+
+// ======================
+// HIGH SCORE
+// ======================
+
+let bestScore =
+
+Number(
+
+localStorage.getItem(
+"highScore"
+)
+
+) || 0;
+
+bestScoreUI.innerText =
+"Best : " + bestScore;
 
 // ======================
 // LIGHTS
@@ -92,33 +101,23 @@ const sunLight =
 new THREE.DirectionalLight(
 
 0xffffff,
-
 3
 
 );
 
 sunLight.position.set(
-
 100,
-
 150,
-
 50
-
 );
 
-scene.add(
-sunLight
-);
+scene.add(sunLight);
 
 scene.add(
 
 new THREE.AmbientLight(
-
 0xffffff,
-
 2
-
 )
 
 );
@@ -131,36 +130,24 @@ const sun =
 new THREE.Mesh(
 
 new THREE.SphereGeometry(
-
 20,
-
 32,
-
 32
-
 ),
 
 new THREE.MeshBasicMaterial({
-
 color:0xffff00
-
 })
 
 );
 
 sun.position.set(
-
 200,
-
 200,
-
 -500
-
 );
 
-scene.add(
-sun
-);
+scene.add(sun);
 
 // ======================
 // GROUND
@@ -170,17 +157,12 @@ const ground =
 new THREE.Mesh(
 
 new THREE.PlaneGeometry(
-
-2000,
-
-5000
-
+4000,
+10000
 ),
 
 new THREE.MeshStandardMaterial({
-
 color:0x3cb043
-
 })
 
 );
@@ -188,9 +170,7 @@ color:0x3cb043
 ground.rotation.x =
 -Math.PI/2;
 
-scene.add(
-ground
-);
+scene.add(ground);
 
 // ======================
 // ROAD
@@ -201,11 +181,9 @@ new THREE.Mesh(
 
 new THREE.BoxGeometry(
 
-20,
-
+30,
 0.1,
-
-4000
+5000
 
 ),
 
@@ -217,57 +195,40 @@ color:0x444444
 
 );
 
-scene.add(
-road
-);
+scene.add(road);
 
 // ======================
 // ROAD MARKERS
 // ======================
 
-const laneMarkers =
-[];
+const laneMarkers = [];
 
-for(let i=0;i<200;i++){
+for(let i=0;i<300;i++){
 
 const marker =
 new THREE.Mesh(
 
 new THREE.BoxGeometry(
-
-0.4,
-
+0.5,
 0.05,
-
-6
-
+8
 ),
 
 new THREE.MeshStandardMaterial({
-
 color:0xffffff
-
 })
 
 );
 
 marker.position.set(
-
 0,
-
 0.06,
-
--i*20
-
+-i*18
 );
 
-scene.add(
-marker
-);
+scene.add(marker);
 
-laneMarkers.push(
-marker
-);
+laneMarkers.push(marker);
 
 }
 
@@ -282,85 +243,56 @@ const body =
 new THREE.Mesh(
 
 new THREE.BoxGeometry(
-
-2.5,
-
+3,
 1,
-
-5
-
+6
 ),
 
 new THREE.MeshStandardMaterial({
-
 color:0xff0000
-
 })
 
 );
 
-body.position.y =
-0.8;
+body.position.y = 0.8;
 
-carGroup.add(
-body
-);
+carGroup.add(body);
 
 const roof =
 new THREE.Mesh(
 
 new THREE.BoxGeometry(
-
-1.8,
-
-0.8,
-
-2.5
-
+2,
+1,
+3
 ),
 
 new THREE.MeshStandardMaterial({
-
 color:0x66ccff
-
 })
 
 );
 
-roof.position.y =
-1.6;
+roof.position.y = 1.8;
 
-carGroup.add(
-roof
-);
+carGroup.add(roof);
 
-for(
-let x of [-1.4,1.4]
-){
+for(let x of [-1.6,1.6]){
 
-for(
-let z of [-1.8,1.8]
-){
+for(let z of [-2.2,2.2]){
 
 const wheel =
 new THREE.Mesh(
 
 new THREE.CylinderGeometry(
-
-0.4,
-
-0.4,
-
-0.4,
-
+0.5,
+0.5,
+0.5,
 16
-
 ),
 
 new THREE.MeshStandardMaterial({
-
 color:0x111111
-
 })
 
 );
@@ -369,32 +301,20 @@ wheel.rotation.z =
 Math.PI/2;
 
 wheel.position.set(
-
 x,
-
 0.4,
-
 z
-
 );
 
-carGroup.add(
-wheel
-);
+carGroup.add(wheel);
 
 }
 }
 
-carGroup.position.y =
-0.1;
+carGroup.position.y = 0.1;
+carGroup.position.z = 0;
 
-carGroup.position.z =
-0;
-
-scene.add(
-carGroup
-);
-
+scene.add(carGroup);
 // ======================
 // GAME VARIABLES
 // ======================
@@ -407,7 +327,18 @@ let score = 0;
 
 let gameOver = false;
 
-const maxSpeed = 3;
+const maxSpeed = 4;
+
+const cruiseSpeed = 2.2;
+
+const autoAcceleration =
+0.004;
+
+const turboAcceleration =
+0.03;
+
+const brakingForce =
+0.08;
 
 // ======================
 // CONTROLS
@@ -418,30 +349,102 @@ const keys = {};
 document.addEventListener(
 'keydown',
 e=>{
-keys[e.key]=true;
+
+keys[e.key] = true;
+
+if(
+gameOver &&
+e.key === "Enter"
+){
+
+location.reload();
+
+}
+
 }
 );
 
 document.addEventListener(
 'keyup',
 e=>{
-keys[e.key]=false;
+
+keys[e.key] = false;
+
 }
 );
+
+// ======================
+// CLOUDS
+// ======================
+
+const clouds = [];
+
+for(let i=0;i<20;i++){
+
+const cloud =
+new THREE.Group();
+
+for(let j=0;j<4;j++){
+
+const puff =
+new THREE.Mesh(
+
+new THREE.SphereGeometry(
+5,
+16,
+16
+),
+
+new THREE.MeshBasicMaterial({
+color:0xffffff
+})
+
+);
+
+puff.position.x =
+j * 4;
+
+cloud.add(puff);
+
+}
+
+cloud.position.set(
+
+-400 +
+Math.random()*800,
+
+120 +
+Math.random()*80,
+
+-300 -
+Math.random()*3000
+
+);
+
+scene.add(cloud);
+
+clouds.push(cloud);
+
+}
+
 // ======================
 // MOUNTAINS
 // ======================
 
-for(let i=0;i<30;i++){
+const mountains = [];
+
+for(let i=0;i<40;i++){
 
 const mountain =
 new THREE.Mesh(
 
 new THREE.ConeGeometry(
 
-40 + Math.random()*50,
+40 +
+Math.random()*60,
 
-80 + Math.random()*100,
+100 +
+Math.random()*100,
 
 4
 
@@ -457,17 +460,19 @@ color:0x666666
 
 mountain.position.set(
 
--500 + Math.random()*1000,
+-600 +
+Math.random()*1200,
 
 40,
 
--300 - i*200
+-300 -
+i*180
 
 );
 
-scene.add(
-mountain
-);
+scene.add(mountain);
+
+mountains.push(mountain);
 
 }
 
@@ -475,82 +480,73 @@ mountain
 // TREES
 // ======================
 
-for(let i=0;i<200;i++){
-
-createTree(
--35,
--i*30
-);
-
-createTree(
-35,
--i*30
-);
-
-}
+const trees = [];
 
 function createTree(x,z){
+
+const group =
+new THREE.Group();
 
 const trunk =
 new THREE.Mesh(
 
 new THREE.CylinderGeometry(
-
 0.3,
 0.4,
 2
-
 ),
 
 new THREE.MeshStandardMaterial({
-
 color:0x8b4513
-
 })
 
 );
 
-trunk.position.set(
+trunk.position.y = 1;
 
-x,
-1,
-z
-
-);
-
-scene.add(
-trunk
-);
+group.add(trunk);
 
 const leaves =
 new THREE.Mesh(
 
 new THREE.ConeGeometry(
-
-1.5,
+1.8,
 4,
 8
-
 ),
 
 new THREE.MeshStandardMaterial({
-
 color:0x228b22
-
 })
 
 );
 
-leaves.position.set(
+leaves.position.y = 4;
 
+group.add(leaves);
+
+group.position.set(
 x,
-4,
+0,
 z
-
 );
 
-scene.add(
-leaves
+scene.add(group);
+
+trees.push(group);
+
+}
+
+for(let i=0;i<250;i++){
+
+createTree(
+-45,
+-i*25
+);
+
+createTree(
+45,
+-i*25
 );
 
 }
@@ -567,9 +563,9 @@ const colors = [
 
 0x0000ff,
 0xffff00,
-0x00ffff,
 0xff00ff,
-0xffffff
+0xffffff,
+0x00ffff
 
 ];
 
@@ -577,11 +573,9 @@ const traffic =
 new THREE.Mesh(
 
 new THREE.BoxGeometry(
-
-2.5,
+3,
 1,
-5
-
+6
 ),
 
 new THREE.MeshStandardMaterial({
@@ -599,9 +593,11 @@ Math.random()*colors.length
 
 const lanes = [
 
+-10,
 -5,
 0,
-5
+5,
+10
 
 ];
 
@@ -609,14 +605,14 @@ traffic.position.set(
 
 lanes[
 Math.floor(
-Math.random()*3
+Math.random()*5
 )
 ],
 
 0.5,
 
--500 -
-Math.random()*1000
+-1000 -
+Math.random()*3000
 
 );
 
@@ -630,7 +626,7 @@ traffic
 
 }
 
-for(let i=0;i<10;i++){
+for(let i=0;i<20;i++){
 
 spawnTraffic();
 
@@ -647,19 +643,18 @@ return (
 Math.abs(
 a.position.x -
 b.position.x
-) < 2.5
+) < 3
 
 &&
 
 Math.abs(
 a.position.z -
 b.position.z
-) < 4
+) < 5
 
 );
 
 }
-
 // ======================
 // ANIMATION LOOP
 // ======================
@@ -670,7 +665,34 @@ requestAnimationFrame(
 animate
 );
 
+// ======================
+// GAME OVER
+// ======================
+
 if(gameOver){
+
+if(
+score > bestScore
+){
+
+bestScore =
+
+Math.floor(
+score
+);
+
+localStorage.setItem(
+"highScore",
+bestScore
+);
+
+}
+
+bestScoreUI.innerText =
+
+"Best : " +
+
+bestScore;
 
 gameOverUI.style.display =
 "block";
@@ -681,10 +703,24 @@ camera
 );
 
 return;
+
 }
 
 // ======================
-// SPEED CONTROL
+// AUTO ACCELERATION
+// ======================
+
+if(
+speed < cruiseSpeed
+){
+
+speed +=
+autoAcceleration;
+
+}
+
+// ======================
+// TURBO
 // ======================
 
 if(
@@ -692,16 +728,26 @@ keys["ArrowUp"] ||
 keys["w"]
 ){
 
-speed += 0.03;
+speed +=
+turboAcceleration;
 
 }
+
+// ======================
+// BRAKE
+// ======================
+
+let braking = false;
 
 if(
 keys["ArrowDown"] ||
 keys["s"]
 ){
 
-speed -= 0.05;
+speed -=
+brakingForce;
+
+braking = true;
 
 }
 
@@ -721,13 +767,23 @@ speed = maxSpeed;
 // STEERING
 // ======================
 
+let steering = false;
+
 if(
 keys["ArrowLeft"] ||
 keys["a"]
 ){
 
 carGroup.position.x -=
-0.25;
+0.30;
+
+carGroup.rotation.z =
+Math.min(
+0.25,
+carGroup.rotation.z + 0.02
+);
+
+steering = true;
 
 }
 
@@ -737,25 +793,83 @@ keys["d"]
 ){
 
 carGroup.position.x +=
-0.25;
+0.30;
+
+carGroup.rotation.z =
+Math.max(
+-0.25,
+carGroup.rotation.z - 0.02
+);
+
+steering = true;
 
 }
 
+// ======================
+// RETURN TO CENTER
+// ======================
+
+if(!steering){
+
+carGroup.rotation.z *=
+0.90;
+
+}
+
+// ======================
+// BRAKING DRIFT
+// ======================
+
+if(braking){
+
+carGroup.rotation.y =
+
+Math.sin(
+
+Date.now()*0.01
+
+) * 0.03;
+
+}else{
+
+carGroup.rotation.y *=
+0.90;
+
+}
+
+// ======================
 // ROAD LIMITS
+// ======================
 
 if(
-carGroup.position.x < -8
+carGroup.position.x < -14
 ){
 
-carGroup.position.x = -8;
+carGroup.position.x = -14;
 
 }
 
 if(
-carGroup.position.x > 8
+carGroup.position.x > 14
 ){
 
-carGroup.position.x = 8;
+carGroup.position.x = 14;
+
+}
+
+// ======================
+// GRASS PENALTY
+// ======================
+
+if(
+
+Math.abs(
+carGroup.position.x
+) > 12
+
+){
+
+speed *= 0.98;
 
 }
 
@@ -763,13 +877,21 @@ carGroup.position.x = 8;
 // CAMERA FOLLOW
 // ======================
 
-camera.position.x =
-carGroup.position.x;
+camera.position.x +=
+
+(
+carGroup.position.x -
+camera.position.x
+)
+
+* 0.08;
 
 camera.position.y = 5;
 
 camera.position.z =
-carGroup.position.z + 15;
+
+carGroup.position.z +
+15;
 
 camera.lookAt(
 
@@ -782,53 +904,193 @@ carGroup.position.z - 40
 );
 
 // ======================
+// SPEEDOMETER
+// ======================
+
+const speedKMH =
+
+Math.floor(
+speed * 100
+);
+
+speedUI.innerText =
+
+"Speed : " +
+speedKMH +
+" km/h";
+
+const angle =
+
+-120 +
+
+(
+speed /
+maxSpeed
+)
+
+* 240;
+
+needle.style.transform =
+
+`rotate(${angle}deg)`;
+
+// ======================
 // ROAD MARKERS
 // ======================
 
 for(
+
 let marker of laneMarkers
+
 ){
 
 marker.position.z +=
-speed * 20;
+
+speed * 25;
 
 if(
+
 marker.position.z > 100
+
 ){
 
 marker.position.z =
--3900;
+
+-5000;
 
 }
 
 }
 
 // ======================
-// TRAFFIC MOVEMENT
+// CLOUDS
 // ======================
 
 for(
+
+let cloud of clouds
+
+){
+
+cloud.position.x +=
+0.05;
+
+cloud.position.z +=
+speed * 0.8;
+
+if(
+
+cloud.position.x > 500
+
+){
+
+cloud.position.x =
+-500;
+
+}
+
+if(
+
+cloud.position.z > 200
+
+){
+
+cloud.position.z =
+-3000;
+
+}
+
+}
+
+// ======================
+// TREES
+// ======================
+
+for(
+
+let tree of trees
+
+){
+
+tree.position.z +=
+
+speed * 18;
+
+if(
+
+tree.position.z > 100
+
+){
+
+tree.position.z =
+
+-6000;
+
+}
+
+}
+
+// ======================
+// MOUNTAINS
+// ======================
+
+for(
+
+let mountain of mountains
+
+){
+
+mountain.position.z +=
+
+speed * 3;
+
+if(
+
+mountain.position.z > 200
+
+){
+
+mountain.position.z =
+
+-7000;
+
+}
+
+}
+
+// ======================
+// TRAFFIC
+// ======================
+
+for(
+
 let traffic of trafficCars
+
 ){
 
 traffic.position.z +=
-speed * 20;
+
+speed * 22;
 
 if(
+
 traffic.position.z > 100
+
 ){
 
 traffic.position.z =
 
--500 -
+-1000 -
 
-Math.random()*1500;
+Math.random()*4000;
 
 const lanes = [
 
+-10,
 -5,
 0,
-5
+5,
+10
 
 ];
 
@@ -836,17 +1098,19 @@ traffic.position.x =
 
 lanes[
 Math.floor(
-Math.random()*3
+Math.random()*5
 )
 ];
 
 }
 
 if(
+
 checkCollision(
 carGroup,
 traffic
 )
+
 ){
 
 gameOver = true;
@@ -856,24 +1120,44 @@ gameOver = true;
 }
 
 // ======================
-// STATS
+// DISTANCE
 // ======================
 
 distance +=
-speed * 0.02;
+
+speed * 0.025;
 
 score +=
-speed * 5;
 
-speedUI.innerText =
+speed * 6;
 
-"Speed : " +
+// ======================
+// HIGH SCORE LIVE UPDATE
+// ======================
+
+if(
+
+score > bestScore
+
+){
+
+bestScore =
 
 Math.floor(
-speed * 100
-) +
+score
+);
 
-" km/h";
+bestScoreUI.innerText =
+
+"Best : " +
+
+bestScore;
+
+}
+
+// ======================
+// HUD
+// ======================
 
 distanceUI.innerText =
 
