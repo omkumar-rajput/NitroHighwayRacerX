@@ -70,6 +70,9 @@ document.getElementById("score");
 const bestScoreUI =
 document.getElementById("bestScore");
 
+const fpsUI =
+document.getElementById("fps");
+
 const needle =
 document.getElementById("needle");
 
@@ -82,6 +85,10 @@ document.getElementById("warning");
 // ======================
 // HIGH SCORE
 // ======================
+let lastTime =
+performance.now();
+
+let fps = 60;
 
 let bestScore =
 
@@ -330,6 +337,8 @@ let score = 0;
 
 let gameOver = false;
 
+let paused = false;
+
 const maxSpeed = 0.5;
 
 const cruiseSpeed = 0.3;
@@ -353,6 +362,15 @@ document.addEventListener(
 e=>{
 
 keys[e.key] = true;
+
+if(
+e.key === "q" ||
+e.key === "Q"
+){
+
+paused = !paused;
+
+}
 
 if(
 gameOver &&
@@ -681,12 +699,44 @@ b.position.z
 // ======================
 // ANIMATION LOOP
 // ======================
-
 function animate(){
 
 requestAnimationFrame(
 animate
 );
+
+const now =
+performance.now();
+
+fps =
+
+1000 /
+
+(
+now -
+lastTime
+);
+
+lastTime = now;
+
+fpsUI.innerText =
+
+"FPS : " +
+
+Math.round(
+fps
+);
+
+if(paused){
+
+renderer.render(
+scene,
+camera
+);
+
+return;
+
+}
 
 // ======================
 // GAME OVER
@@ -695,7 +745,9 @@ animate
 if(gameOver){
 
 if(
+
 score > bestScore
+
 ){
 
 bestScore =
@@ -704,18 +756,21 @@ Math.floor(
 score
 );
 
-localStorage.setItem(
-"highScore",
-bestScore
-);
-
-}
-
 bestScoreUI.innerText =
 
 "Best : " +
 
 bestScore;
+
+localStorage.setItem(
+
+"highScore",
+
+bestScore
+
+);
+
+}
 
 gameOverUI.style.display =
 "block";
